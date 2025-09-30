@@ -1,5 +1,5 @@
-module github.com/nwoik/Limitless-API
+module github.com/nwoik/limitless-api
 
 go 1.25.1
 
-require github.com/nwoik/generate-mii v1.3.2 // indirect
+require github.com/nwoik/generate-mii v1.3.2
