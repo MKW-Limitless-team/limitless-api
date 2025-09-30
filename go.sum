@@ -2,3 +2,5 @@ github.com/nwoik/generate-mii v1.3.2 h1:7RZ+ApOAAEBOTmXarVq+WiT4LfW+9Ev5U2ZyAcAZ
 github.com/nwoik/generate-mii v1.3.2/go.mod h1:H+PQlLlJH1JWBad0YOminyS4GQbza2hNAhyy0PpHwmw=
 github.com/nwoik/limitless-types v1.0.1 h1:FHZzpZIxMEeiNCutcr8tJYEZDz+wU4SY2jmA1UzekI8=
 github.com/nwoik/limitless-types v1.0.1/go.mod h1:M6xZG588N0KMa6i8YfbPhwfch+cTNHu54J0zTK8mf0o=
+github.com/nwoik/limitless-types v1.0.2 h1:k5cuABBSotn0gXhpVgT9jb1I5CqhmQEJZgflAswPp78=
+github.com/nwoik/limitless-types v1.0.2/go.mod h1:M6xZG588N0KMa6i8YfbPhwfch+cTNHu54J0zTK8mf0o=
