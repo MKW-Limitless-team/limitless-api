@@ -3,9 +3,9 @@ package db
 import (
 	"errors"
 
+	"github.com/MKW-Limitless-team/limitless-api/crc"
+	"github.com/MKW-Limitless-team/limitless-types/ltrc"
 	r "github.com/nwoik/generate-mii/rkg"
-	"github.com/nwoik/limitless-api/crc"
-	"github.com/nwoik/limitless-types/ltrc"
 )
 
 func GetTimeByCRC(crc uint32) (*ltrc.Placement, *ltrc.PlayerData, error) {

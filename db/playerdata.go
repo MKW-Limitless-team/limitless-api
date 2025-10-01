@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/nwoik/limitless-types/ltrc"
+	"github.com/MKW-Limitless-team/limitless-types/ltrc"
 )
 
 func EditMii(mii string, userID string) error {

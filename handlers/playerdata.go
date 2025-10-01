@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/nwoik/limitless-api/db"
+	"github.com/MKW-Limitless-team/limitless-api/db"
 )
 
 func GetPlayerHandler(w http.ResponseWriter, r *http.Request) {

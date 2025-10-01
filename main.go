@@ -4,9 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/nwoik/limitless-api/db"
-	"github.com/nwoik/limitless-api/handlers"
-
+	"github.com/MKW-Limitless-team/limitless-api/db"
+	"github.com/MKW-Limitless-team/limitless-api/handlers"
 	_ "github.com/ncruces/go-sqlite3/driver"
 	_ "github.com/ncruces/go-sqlite3/embed"
 	_ "github.com/ncruces/go-sqlite3/vfs/memdb"
