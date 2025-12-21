@@ -26,16 +26,20 @@ func TokenizePlayer(sample string) *Player {
 		scores := strings.Split(scoresMatch[0], "|")
 
 		for _, score := range scores {
-			if strings.Contains(score, "+") {
-				player.Scores = append(player.Scores, addScores(strings.Split(score, "+")))
-			} else {
-				scoreNumber, _ := strconv.Atoi(score)
-				player.Scores = append(player.Scores, scoreNumber)
-			}
+			addScore(player, score)
 		}
 	}
 
 	return player
+}
+
+func addScore(player *Player, score string) {
+	if strings.Contains(score, "+") {
+		player.Scores = append(player.Scores, sumScores(strings.Split(score, "+")))
+	} else {
+		scoreNumber, _ := strconv.Atoi(score)
+		player.Scores = append(player.Scores, scoreNumber)
+	}
 }
 
 func getPenalty(sample string) (string, int) {
@@ -51,7 +55,7 @@ func getPenalty(sample string) (string, int) {
 	return sample, penalty
 }
 
-func addScores(sample []string) int {
+func sumScores(sample []string) int {
 	result := 0
 
 	for _, numString := range sample {
