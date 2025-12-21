@@ -37,8 +37,10 @@ func addScore(player *Player, score string) {
 	if strings.Contains(score, "+") {
 		player.Scores = append(player.Scores, sumScores(strings.Split(score, "+")))
 	} else {
-		scoreNumber, _ := strconv.Atoi(score)
-		player.Scores = append(player.Scores, scoreNumber)
+		scoreNumber, err := strconv.Atoi(score)
+		if err != nil {
+			player.Scores = append(player.Scores, scoreNumber)
+		}
 	}
 }
 
@@ -47,9 +49,11 @@ func getPenalty(sample string) (string, int) {
 	penalty := 0
 
 	for _, penaltyString := range penaltyMatch {
-		penaltyValue, _ := strconv.Atoi(penaltyString)
-		penalty += penaltyValue
-		sample = strings.Replace(sample, penaltyString, "", 1)
+		penaltyValue, err := strconv.Atoi(penaltyString)
+		if err != nil {
+			penalty += penaltyValue
+			sample = strings.Replace(sample, penaltyString, "", 1)
+		}
 	}
 
 	return sample, penalty
@@ -59,8 +63,10 @@ func sumScores(sample []string) int {
 	result := 0
 
 	for _, numString := range sample {
-		num, _ := strconv.Atoi(numString)
-		result += num
+		num, err := strconv.Atoi(numString)
+		if err != nil {
+			result += num
+		}
 	}
 
 	return result
