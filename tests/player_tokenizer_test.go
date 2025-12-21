@@ -9,7 +9,7 @@ import (
 
 func TestTokenizer(t *testing.T) {
 	t.Run("player name and flag", func(t *testing.T) {
-		playerString := "Billy [gb] 110"
+		playerString := "Billy [gb]"
 
 		player := table.TokenizePlayer(playerString)
 

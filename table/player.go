@@ -5,7 +5,7 @@ import "regexp"
 var (
 	playerNameRegex, _    = regexp.Compile(`^\w+`)
 	flagRegex, _          = regexp.Compile(`\[\w+\]`)
-	scoresRegex, _        = regexp.Compile(`[\d+-|]+$`)
+	scoresRegex, _        = regexp.Compile(`[\d+\-|]+$`)
 	negativeScoreRegex, _ = regexp.Compile(`-\d+`)
 )
 
