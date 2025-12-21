@@ -1,9 +1,9 @@
 package table
 
 type Group struct {
-	Name    string
-	Desc    string
-	Players []Player
-	Penalty int
-	Color   string
+	Name    string   `json:"name,omitempty"`
+	Desc    string   `json:"desc,omitempty"`
+	Players []Player `json:"players,omitempty"`
+	Penalty int      `json:"penalty,omitempty"`
+	Color   string   `json:"color,omitempty"`
 }
