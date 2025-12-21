@@ -1,8 +1,16 @@
 package table
 
 import (
+	"regexp"
 	"strconv"
 	"strings"
+)
+
+var (
+	trailingLinesRegex, _ = regexp.Compile(`\s+$`)
+	flagRegex, _          = regexp.Compile(`\[\w+\]`)
+	scoresRegex, _        = regexp.Compile(`\b[\d+\-|]+`)
+	negativeScoreRegex, _ = regexp.Compile(`-\d+`)
 )
 
 func TokenizePlayer(sample string) *Player {
@@ -10,13 +18,13 @@ func TokenizePlayer(sample string) *Player {
 	sample, penalty := getPenalty(sample)
 	player.Penalty = penalty
 
-	playerNameMatch := playerNameRegex.FindAllString(sample, -1)
 	flagMatch := flagRegex.FindAllString(sample, -1)
-	scoresMatch := scoresRegex.FindAllString(sample, -1)
+	sample = flagRegex.ReplaceAllString(sample, "")
 
-	if len(playerNameMatch) != 0 {
-		player.Name = playerNameMatch[0]
-	}
+	scoresMatch := scoresRegex.FindAllString(sample, -1)
+	sample = scoresRegex.ReplaceAllString(sample, "")
+
+	player.Name = trailingLinesRegex.ReplaceAllLiteralString(sample, "")
 
 	if len(flagMatch) != 0 {
 		player.Flag = flagMatch[0]
