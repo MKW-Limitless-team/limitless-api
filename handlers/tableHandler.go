@@ -17,9 +17,11 @@ func TableHandler(w http.ResponseWriter, r *http.Request) {
 	table := t.ProcessTable(value)
 
 	resp, err := json.Marshal(table)
+
 	if err != nil {
 		log.Println(err)
 	}
+	log.Println(string(resp))
 
 	w.Write(resp)
 	log.Println("Sent table response")
