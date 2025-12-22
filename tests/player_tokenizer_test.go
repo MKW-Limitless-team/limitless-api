@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTokenizer(t *testing.T) {
+func TestPlayerTokenizer(t *testing.T) {
 	t.Run("player name and flag", func(t *testing.T) {
 		playerString := "Billy [gb]"
 

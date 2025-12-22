@@ -7,11 +7,65 @@ import (
 )
 
 var (
-	trailingLinesRegex, _ = regexp.Compile(`\s+$`)
-	flagRegex, _          = regexp.Compile(`\[\w+\]`)
-	scoresRegex, _        = regexp.Compile(`\b[\d+\-|]+`)
-	negativeScoreRegex, _ = regexp.Compile(`-\d+`)
+	trailingSpacesRegex, _ = regexp.Compile(`\s+$`)
+	leadingSpacesRegex, _  = regexp.Compile(`^\s+`)
+	flagRegex, _           = regexp.Compile(`\[\w+\]`)
+	scoresRegex, _         = regexp.Compile(`[\d+|\-]+[\d+|\-]+`)
+	negativeScoreRegex, _  = regexp.Compile(`-\d+`)
+	colorRegex, _          = regexp.Compile(`#[a-fA-F0-9]{6}`)
 )
+
+func ProcessTable(sample string) *Table {
+	table := NewTable()
+	lines := strings.Split(sample, "\n")
+
+	for _, line := range lines {
+		if removeTralingSpaces(line) == "" {
+
+		} else if strings.HasPrefix(line, "#title") {
+			title := strings.Replace(line, "#title", "", -1)
+			table.Title = removeLeadingSpaces(title)
+		} else if isPenalty(line) {
+			penaltyMatch := negativeScoreRegex.FindAllString(line, -1)
+
+			if len(penaltyMatch) != 0 {
+				penalty, err := strconv.Atoi(penaltyMatch[0])
+				if err == nil {
+					table.SetPenalty(penalty)
+				}
+			}
+		} else if isPlayer(line) && !colorRegex.MatchString(line) {
+			player := TokenizePlayer(line)
+			table.AddPlayer(player)
+		} else {
+			group := TokenizeGroup(line)
+			table.AddGroup(group)
+		}
+	}
+
+	return table
+}
+
+func TokenizeGroup(sample string) *Group {
+	group := &Group{}
+
+	colorMatch := colorRegex.FindAllString(sample, -1)
+	sample = removeTralingSpaces(colorRegex.ReplaceAllString(sample, ""))
+
+	if len(colorMatch) != 0 {
+		group.Color = colorMatch[0]
+	}
+
+	if strings.Contains(sample, "-") {
+		titleAndDesc := strings.Split(sample, "-")
+		group.Name = titleAndDesc[0]
+		group.Desc = titleAndDesc[len(titleAndDesc)-1]
+	} else {
+		group.Name = sample
+	}
+
+	return group
+}
 
 func TokenizePlayer(sample string) *Player {
 	player := &Player{}
@@ -24,7 +78,7 @@ func TokenizePlayer(sample string) *Player {
 	scoresMatch := scoresRegex.FindAllString(sample, -1)
 	sample = scoresRegex.ReplaceAllString(sample, "")
 
-	player.Name = trailingLinesRegex.ReplaceAllLiteralString(sample, "")
+	player.Name = removeTralingSpaces(sample)
 
 	if len(flagMatch) != 0 {
 		player.Flag = flagMatch[0]
@@ -67,6 +121,14 @@ func getPenalty(sample string) (string, int) {
 	return sample, penalty
 }
 
+func removeLeadingSpaces(sample string) string {
+	return leadingSpacesRegex.ReplaceAllLiteralString(sample, "")
+}
+
+func removeTralingSpaces(sample string) string {
+	return trailingSpacesRegex.ReplaceAllLiteralString(sample, "")
+}
+
 func sumScores(sample []string) int {
 	result := 0
 
@@ -78,4 +140,23 @@ func sumScores(sample []string) int {
 	}
 
 	return result
+}
+
+func isPenalty(sample string) bool {
+	return strings.HasPrefix(sample, "Penalty") || strings.HasPrefix(sample, "penalty")
+}
+
+func isPlayer(sample string) bool {
+	flagMatch := flagRegex.FindAllString(sample, -1)
+	scoresMatch := scoresRegex.FindAllString(sample, -1)
+
+	if len(flagMatch) != 0 {
+		return true
+	}
+
+	if len(scoresMatch) != 0 {
+		return true
+	}
+
+	return false
 }
