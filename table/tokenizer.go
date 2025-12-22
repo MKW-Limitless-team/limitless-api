@@ -22,18 +22,8 @@ func ProcessTable(sample string) *Table {
 	for _, line := range lines {
 		if removeTralingSpaces(line) == "" {
 
-		} else if strings.HasPrefix(line, "#title") {
-			title := strings.Replace(line, "#title", "", -1)
-			table.Title = removeLeadingSpaces(title)
-		} else if isPenalty(line) {
-			penaltyMatch := negativeScoreRegex.FindAllString(line, -1)
+		} else if handleKeyword(table, line) {
 
-			if len(penaltyMatch) != 0 {
-				penalty, err := strconv.Atoi(penaltyMatch[0])
-				if err == nil {
-					table.SetPenalty(penalty)
-				}
-			}
 		} else if isPlayer(line) && !colorRegex.MatchString(line) {
 			player := TokenizePlayer(line)
 			table.AddPlayer(player)
@@ -140,10 +130,6 @@ func sumScores(sample []string) int {
 	}
 
 	return result
-}
-
-func isPenalty(sample string) bool {
-	return strings.HasPrefix(sample, "Penalty") || strings.HasPrefix(sample, "penalty")
 }
 
 func isPlayer(sample string) bool {

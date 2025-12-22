@@ -9,6 +9,7 @@ import (
 )
 
 func TestTableTokenizer(t *testing.T) {
+	table.LoadKeywords()
 	t.Run("table title", func(t *testing.T) {
 		sample := `
 			#title 4 races
