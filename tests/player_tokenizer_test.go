@@ -65,11 +65,11 @@ func TestPlayerTokenizer(t *testing.T) {
 	})
 
 	t.Run("player multiple score with addition and penalty", func(t *testing.T) {
-		playerString := "Billy [gb] 110-10+4|67+3|40-10"
+		playerString := "Billy [gb] -10+110-10+4|67+3|40-10"
 
 		player := table.TokenizePlayer(playerString)
 		scores := []int{114, 70, 40}
-		penalty := -20
+		penalty := -30
 
 		assert.Equal(t, player.Scores, scores)
 		assert.Equal(t, player.Penalty, penalty)
