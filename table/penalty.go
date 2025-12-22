@@ -2,6 +2,8 @@ package table
 
 import (
 	"strconv"
+
+	"github.com/MKW-Limitless-team/limitless-types/table"
 )
 
 const (
@@ -9,7 +11,7 @@ const (
 	Penalty = "Penalty"
 )
 
-func penaltyHandler(table *Table, line string) bool {
+func penaltyHandler(table *table.Table, line string) bool {
 	penaltyMatch := negativeScoreRegex.FindAllString(line, -1)
 
 	if len(penaltyMatch) != 0 {

@@ -2,6 +2,8 @@ package table
 
 import (
 	"strings"
+
+	"github.com/MKW-Limitless-team/limitless-types/table"
 )
 
 const (
@@ -9,7 +11,7 @@ const (
 	Title = "#Title"
 )
 
-func titleHandler(table *Table, line string) bool {
+func titleHandler(table *table.Table, line string) bool {
 	title := strings.Replace(line, "#title", "", -1)
 	table.Title = removeLeadingSpaces(title)
 

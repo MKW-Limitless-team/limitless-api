@@ -2,10 +2,12 @@ package table
 
 import (
 	"strings"
+
+	"github.com/MKW-Limitless-team/limitless-types/table"
 )
 
 var (
-	Keywords = map[string]func(table *Table, line string) bool{}
+	Keywords = map[string]func(table *table.Table, line string) bool{}
 )
 
 func LoadKeywords() {
@@ -15,7 +17,7 @@ func LoadKeywords() {
 	Keywords[Title] = titleHandler
 }
 
-func handleKeyword(table *Table, line string) bool {
+func handleKeyword(table *table.Table, line string) bool {
 	for key, valueFunc := range Keywords {
 		if strings.HasPrefix(line, key) {
 			return valueFunc(table, line)

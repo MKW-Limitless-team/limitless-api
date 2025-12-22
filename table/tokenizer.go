@@ -4,6 +4,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/MKW-Limitless-team/limitless-types/table"
 )
 
 var (
@@ -15,8 +17,8 @@ var (
 	colorRegex, _          = regexp.Compile(`#[a-fA-F0-9]{6}`)
 )
 
-func ProcessTable(sample string) *Table {
-	table := NewTable()
+func ProcessTable(sample string) *table.Table {
+	table := table.NewTable()
 	lines := strings.Split(sample, "\n")
 
 	for _, line := range lines {
@@ -36,8 +38,8 @@ func ProcessTable(sample string) *Table {
 	return table
 }
 
-func TokenizeGroup(sample string) *Group {
-	group := &Group{}
+func TokenizeGroup(sample string) *table.Group {
+	group := &table.Group{}
 
 	colorMatch := colorRegex.FindAllString(sample, -1)
 	sample = removeTralingSpaces(colorRegex.ReplaceAllString(sample, ""))
@@ -57,8 +59,8 @@ func TokenizeGroup(sample string) *Group {
 	return group
 }
 
-func TokenizePlayer(sample string) *Player {
-	player := &Player{}
+func TokenizePlayer(sample string) *table.Player {
+	player := &table.Player{}
 	sample, penalty := getPenalty(sample)
 	player.Penalty = penalty
 
@@ -85,7 +87,7 @@ func TokenizePlayer(sample string) *Player {
 	return player
 }
 
-func addScore(player *Player, score string) {
+func addScore(player *table.Player, score string) {
 	if strings.Contains(score, "+") {
 		player.Scores = append(player.Scores, sumScores(strings.Split(score, "+")))
 	} else {
