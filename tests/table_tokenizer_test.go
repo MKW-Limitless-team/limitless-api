@@ -113,6 +113,37 @@ func TestTableTokenizer(t *testing.T) {
 		assert.Equal(t, table.GetCurrentGroup().Color, "#ff0000")
 		assert.Equal(t, len(table.Groups[0].Players), 12)
 	})
+
+	t.Run("Team table", func(t *testing.T) {
+		sample := `
+			A - Full Team Name #ff0000
+			Alice [us] 112|65|42
+			Billy [gb] 110|32|88
+			Carol [au] 76|18|45
+			Derek [ca] 72|26|79
+			Ellen [de] 90-10|80|54
+			Frank [ie] 55|38|34
+			Penalty -10
+
+			B
+			Grant [cl] 70+20+8|50|62
+			Henry [br] 78|45|70
+			Isaac 46|28|61
+			James [kr] 100|80|49
+			Karen [jp] 68|36|38
+			Lucas [mx] 79|15|108
+		`
+		table := table.ProcessTable(stripTabs(sample))
+		assert.Equal(t, table.Groups[0].Name, "A")
+		assert.Equal(t, table.Groups[0].Desc, "Full Team Name")
+		assert.Equal(t, table.Groups[0].Color, "#ff0000")
+		assert.Equal(t, table.Groups[0].Penalty, -10)
+		assert.Equal(t, len(table.Groups[0].Players), 6)
+
+		assert.Equal(t, table.Groups[1].Name, "B")
+		assert.Equal(t, len(table.Groups[1].Players), 6)
+
+	})
 }
 
 func stripTabs(sample string) string {

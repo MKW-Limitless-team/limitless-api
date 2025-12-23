@@ -50,8 +50,8 @@ func TokenizeGroup(sample string) *table.Group {
 
 	if strings.Contains(sample, "-") {
 		titleAndDesc := strings.Split(sample, "-")
-		group.Name = titleAndDesc[0]
-		group.Desc = titleAndDesc[len(titleAndDesc)-1]
+		group.Name = removeTralingSpaces(titleAndDesc[0])
+		group.Desc = removeLeadingSpaces(titleAndDesc[len(titleAndDesc)-1])
 	} else {
 		group.Name = sample
 	}
