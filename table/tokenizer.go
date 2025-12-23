@@ -73,7 +73,7 @@ func TokenizePlayer(sample string) *table.Player {
 	player.Name = removeTralingSpaces(sample)
 
 	if len(flagMatch) != 0 {
-		player.Flag = flagMatch[0]
+		player.Flag = FlagEmoji(flagMatch[0])
 	}
 
 	if len(scoresMatch) != 0 {
@@ -147,4 +147,19 @@ func isPlayer(sample string) bool {
 	}
 
 	return false
+}
+
+func FlagEmoji(flag string) string {
+	countryCode := strings.Replace(flag, "[", "", -1)
+	countryCode = strings.Replace(countryCode, "]", "", -1)
+	countryCode = strings.ToUpper(countryCode)
+	if len(countryCode) != 2 {
+		return ""
+	}
+
+	runes := []rune(countryCode)
+	return string([]rune{
+		runes[0] + 127397,
+		runes[1] + 127397,
+	})
 }
