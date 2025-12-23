@@ -14,7 +14,7 @@ func TestPlayerTokenizer(t *testing.T) {
 		player := table.TokenizePlayer(playerString)
 
 		assert.Equal(t, player.Name, "Billy")
-		assert.Equal(t, player.Flag, "[gb]")
+		assert.Equal(t, player.Flag, "🇬🇧")
 	})
 
 	t.Run("player basic score", func(t *testing.T) {
