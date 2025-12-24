@@ -3,7 +3,7 @@ module github.com/nwoik/Limitless-API
 go 1.25.1
 
 require (
-	github.com/MKW-Limitless-team/limitless-types v1.0.6
+	github.com/MKW-Limitless-team/limitless-types v1.0.7
 	github.com/stretchr/testify v1.11.1
 )
 
