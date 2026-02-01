@@ -4,11 +4,15 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/nwoik/Limitless-API/globals"
 	"github.com/nwoik/Limitless-API/handlers"
 	"github.com/nwoik/Limitless-API/table"
 )
 
 func main() {
+	globals.Initialize()
+	defer globals.GetConnection().Close()
+
 	table.LoadKeywords()
 	http.HandleFunc("/table", handlers.TableHandler)
 
