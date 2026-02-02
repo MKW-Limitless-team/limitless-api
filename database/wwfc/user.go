@@ -1,13 +1,17 @@
 package wwfc
 
-import "crypto/md5"
+import (
+	"crypto/md5"
+	"fmt"
+	"net/url"
+)
 
 type User struct {
-	ProfileId       uint64
-	UserId          uint64
+	ProfileID       uint64
+	UserID          uint64
 	GsbrCode        string
 	Password        string
-	NgDeviceId      []uint32
+	NgDeviceID      []uint8
 	Email           string
 	UniqueNick      string
 	FirstName       string
@@ -20,8 +24,17 @@ type User struct {
 	BanExpires      string
 	BanReason       string
 	BanReasonHidden string
+	BanModerator    string
 	BanTOS          bool
 	OpenHost        bool
+}
+
+func GetMii(friendInfo string) string {
+	return friendInfo[:102]
+}
+
+func ShowMii(mii string) string {
+	return fmt.Sprintf("https://mii-unsecure.ariankordi.net/miis/image.png?data=%s&expression=normal&cameraYRotate=-30", url.QueryEscape(mii))
 }
 
 func PidToFC(pid uint64) uint64 {

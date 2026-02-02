@@ -4,20 +4,21 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/lib/pq"
 )
 
 var (
-	DB *sql.DB
+	DB       *sql.DB
+	password = os.Getenv("DB_PASS")
 )
 
 const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "nwoik"
-	dbname   = "wwfc"
+	host   = "localhost"
+	port   = 5432
+	user   = "postgres"
+	dbname = "wwfc"
 )
 
 func Initialize() error {
@@ -28,7 +29,6 @@ func Initialize() error {
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
 
 	err = db.Ping()
 	if err != nil {

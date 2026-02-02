@@ -1,36 +1,21 @@
 package tests
 
 import (
-	"database/sql"
-	"fmt"
 	"testing"
 
 	_ "github.com/lib/pq"
-	"github.com/nwoik/Limitless-API/db/wwfc"
+	"github.com/nwoik/Limitless-API/database/ltrc"
+	"github.com/nwoik/Limitless-API/database/wwfc"
+	"github.com/nwoik/Limitless-API/globals"
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "nwoik"
-	dbname   = "wwfc"
-)
-
 func TestPSQL(t *testing.T) {
-	info := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+	globals.Initialize()
 
-	db, err := sql.Open("postgres", info)
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
-
-	t.Run("select users", func(t *testing.T) {
+	t.Run("get user", func(t *testing.T) {
 		query := `SELECT profile_id, last_ingamesn, mariokartwii_friend_info FROM users`
-		rows, err := db.Query(query)
+		rows, err := globals.GetConnection().Query(query)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -41,19 +26,32 @@ func TestPSQL(t *testing.T) {
 		for rows.Next() {
 			user := &wwfc.User{}
 
-			rows.Scan(&user.ProfileId, &user.LastInGameSn, &user.FriendInfo)
+			rows.Scan(&user.ProfileID, &user.LastInGameSn, &user.FriendInfo)
 			users = append(users, user)
-			fmt.Printf("Name: %s\n", user.LastInGameSn)
-			fmt.Printf("FC: %d\n", wwfc.PidToFC(user.ProfileId))
-			fmt.Printf("PID: %d\n", wwfc.FCToPid(wwfc.PidToFC(user.ProfileId)))
-			fmt.Println("--------------------------")
 		}
 
 		assert.NotEqual(t, 0, len(users))
 	})
 
-	t.Run("", func(t *testing.T) {
+	t.Run("get playerdata", func(t *testing.T) {
+		query := `SELECT profile_id, discord_id, mmr FROM player_data`
 
+		rows, err := globals.GetConnection().Query(query)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer rows.Close()
+
+		players := make([]*ltrc.PlayerData, 0)
+
+		for rows.Next() {
+			player := &ltrc.PlayerData{}
+
+			rows.Scan(&player.ProfileID, &player.DiscordID, &player.Mmr)
+			players = append(players, player)
+		}
+
+		assert.NotEqual(t, 0, len(players))
 	})
 
 }
