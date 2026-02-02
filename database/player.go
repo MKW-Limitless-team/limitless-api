@@ -10,7 +10,7 @@ import (
 )
 
 func GetPlayerData(discordID string) (*ltrc.PlayerData, error) {
-	query := `SELECT profile_id, discord_id, mmr FROM player_data WHERE discord_id = %s`
+	query := `SELECT profile_id, discord_id, mmr FROM player_data WHERE discord_id = '%s'`
 
 	rows, err := globals.GetConnection().Query(fmt.Sprintf(query, discordID))
 	if err != nil {
