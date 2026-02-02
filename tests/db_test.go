@@ -3,10 +3,10 @@ package tests
 import (
 	"testing"
 
+	"github.com/MKW-Limitless-team/limitless-types/ltrc"
+	"github.com/MKW-Limitless-team/limitless-types/wwfc"
 	_ "github.com/lib/pq"
 	"github.com/nwoik/Limitless-API/database"
-	"github.com/nwoik/Limitless-API/database/ltrc"
-	"github.com/nwoik/Limitless-API/database/wwfc"
 	"github.com/nwoik/Limitless-API/globals"
 	"github.com/stretchr/testify/assert"
 )

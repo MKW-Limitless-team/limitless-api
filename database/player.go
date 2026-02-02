@@ -3,9 +3,9 @@ package database
 import (
 	"fmt"
 
+	"github.com/MKW-Limitless-team/limitless-types/ltrc"
+	"github.com/MKW-Limitless-team/limitless-types/wwfc"
 	_ "github.com/lib/pq"
-	"github.com/nwoik/Limitless-API/database/ltrc"
-	"github.com/nwoik/Limitless-API/database/wwfc"
 	"github.com/nwoik/Limitless-API/globals"
 )
 
@@ -28,10 +28,10 @@ func GetPlayerData(discordID string) (*ltrc.PlayerData, error) {
 }
 
 func GetPlayerInfo(discordID string) (*ltrc.PlayerData, *wwfc.User, error) {
-	query := `select discord_id, player_data.profile_id, mmr, 
-				users.profile_id, last_ingamesn, mariokartwii_friend_info, has_ban from player_data
-				inner join users on users.profile_id = player_data.profile_id
-				and discord_id = '%s'`
+	query := `SELECT discord_id, player_data.profile_id, mmr, 
+				users.profile_id, last_ingamesn, mariokartwii_friend_info, has_ban FROM player_data
+				INNER JOIN users on users.profile_id = player_data.profile_id
+				AND discord_id = '%s'`
 
 	rows, err := globals.GetConnection().Query(fmt.Sprintf(query, discordID))
 	if err != nil {
@@ -65,4 +65,17 @@ func GetUser(profileID uint64) (*wwfc.User, error) {
 	}
 
 	return user, nil
+}
+
+func RegisterPlayer(discordID string, profileID uint64) error {
+	query := `INSERT INTO player_data (discord_id, profile_id)
+				VALUES ($1, $2, $3)`
+
+	_, err := globals.GetConnection().Exec(query, discordID, profileID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

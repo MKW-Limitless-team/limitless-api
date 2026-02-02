@@ -15,6 +15,7 @@ func main() {
 
 	table.LoadKeywords()
 	http.HandleFunc("/table", handlers.TableHandler)
+	http.HandleFunc("/register", handlers.Register)
 
 	log.Print("Running server on http://localhost:8080")
 	log.Fatal(http.ListenAndServe("localhost:8080", nil))
