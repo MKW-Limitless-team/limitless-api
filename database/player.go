@@ -1,7 +1,9 @@
 package database
 
 import (
+	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/MKW-Limitless-team/limitless-types/ltrc"
 	"github.com/MKW-Limitless-team/limitless-types/wwfc"
@@ -45,9 +47,32 @@ func GetPlayerInfo(discordID string) (*ltrc.PlayerData, *wwfc.User, error) {
 	if rows.Next() {
 		rows.Scan(&player.DiscordID, &player.ProfileID, &player.Mmr,
 			&user.ProfileID, &user.LastInGameSn, &user.FriendInfo, &user.HasBan)
+	} else {
+		return nil, nil, errors.New("No player found")
 	}
 
 	return player, user, nil
+}
+
+func GetProfileIDs() []uint64 {
+	query := `SELECT profile_id FROM users`
+
+	userIDs := make([]uint64, 0)
+
+	rows, err := globals.GetConnection().Query(query)
+	if err != nil {
+		return userIDs
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		var id string
+		rows.Scan(&id)
+		pid, _ := strconv.Atoi(id)
+		userIDs = append(userIDs, uint64(pid))
+	}
+
+	return userIDs
 }
 
 func GetUser(profileID uint64) (*wwfc.User, error) {
@@ -69,7 +94,7 @@ func GetUser(profileID uint64) (*wwfc.User, error) {
 
 func RegisterPlayer(discordID string, profileID uint64) error {
 	query := `INSERT INTO player_data (discord_id, profile_id)
-				VALUES ($1, $2, $3)`
+				VALUES ($1, $2)`
 
 	_, err := globals.GetConnection().Exec(query, discordID, profileID)
 
