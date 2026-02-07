@@ -60,16 +60,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userIDs := database.GetProfileIDs()
-	var profileID uint64
-	for _, id := range userIDs {
-		if uint64(fc) == uint64(wwfc.PidToFC(id)) {
-			profileID = id
-			break
-		}
-	}
-
-	err = database.RegisterPlayer(discordID, profileID)
+	err = database.RegisterPlayer(discordID, wwfc.FCToPid(uint64(fc)))
 
 	if err != nil {
 		status = responses.FailureResponse("FC cannot be found. Please connect to the limitless server and try again")

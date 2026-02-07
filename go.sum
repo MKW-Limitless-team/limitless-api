@@ -12,6 +12,8 @@ github.com/MKW-Limitless-team/limitless-types v1.0.13 h1:uqbEHDn/mvjXzDXJfga7frB
 github.com/MKW-Limitless-team/limitless-types v1.0.13/go.mod h1:5WH5/urySdHpI9UPKbtsw3V1rndZ7UKiW7x8iB2Kkf4=
 github.com/MKW-Limitless-team/limitless-types v1.0.14 h1:T1eKrcP4xShWdBRtw8WISRX1IeLvnwTGT+0y9kxLm2A=
 github.com/MKW-Limitless-team/limitless-types v1.0.14/go.mod h1:5WH5/urySdHpI9UPKbtsw3V1rndZ7UKiW7x8iB2Kkf4=
+github.com/MKW-Limitless-team/limitless-types v1.0.15 h1:WJjEPMt4tS2LO613rZ9a7sRd4Hb5L5ZIWiKTxPvPKWI=
+github.com/MKW-Limitless-team/limitless-types v1.0.15/go.mod h1:5WH5/urySdHpI9UPKbtsw3V1rndZ7UKiW7x8iB2Kkf4=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/lib/pq v1.11.1 h1:wuChtj2hfsGmmx3nf1m7xC2XpK6OtelS2shMY+bGMtI=
