@@ -50,6 +50,16 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	_, _, err = database.GetPlayerInfo(discordID)
+
+	if err == nil {
+		status = responses.FailureResponse("User already registered")
+		resp, _ := json.Marshal(status)
+		w.Write(resp)
+		log.Println(status)
+		return
+	}
+
 	userIDs := database.GetProfileIDs()
 	var profileID uint64
 	for _, id := range userIDs {
