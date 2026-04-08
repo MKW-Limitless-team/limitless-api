@@ -12,7 +12,7 @@ import (
 )
 
 func GetPlayerData(discordID string) (*ltrc.PlayerData, error) {
-	query := `SELECT profile_id, discord_id, mmr FROM player_data WHERE discord_id = '%s'`
+	query := `SELECT name, profile_id, discord_id, mmr FROM player_data WHERE discord_id = '%s'`
 
 	rows, err := globals.GetConnection().Query(fmt.Sprintf(query, discordID))
 	if err != nil {
@@ -30,7 +30,7 @@ func GetPlayerData(discordID string) (*ltrc.PlayerData, error) {
 }
 
 func GetPlayerInfo(discordID string) (*ltrc.PlayerData, *wwfc.User, error) {
-	query := `SELECT player_data.discord_id, player_data.profile_id, mmr, 
+	query := `SELECT player_data.name, player_data.discord_id, player_data.profile_id, mmr, 
 				users.profile_id, last_ingamesn, mariokartwii_friend_info, has_ban FROM player_data
 				INNER JOIN users on users.profile_id = player_data.profile_id
 				AND player_data.discord_id = '%s'`
@@ -45,7 +45,7 @@ func GetPlayerInfo(discordID string) (*ltrc.PlayerData, *wwfc.User, error) {
 	user := &wwfc.User{}
 
 	if rows.Next() {
-		rows.Scan(&player.DiscordID, &player.ProfileID, &player.Mmr,
+		rows.Scan(&player.Name, &player.DiscordID, &player.ProfileID, &player.Mmr,
 			&user.ProfileID, &user.LastInGameSn, &user.FriendInfo, &user.HasBan)
 	} else {
 		return nil, nil, errors.New("No player found")
@@ -92,11 +92,11 @@ func GetUser(profileID uint64) (*wwfc.User, error) {
 	return user, nil
 }
 
-func RegisterPlayer(discordID string, profileID uint64) error {
-	query := `INSERT INTO player_data (discord_id, profile_id)
-				VALUES ($1, $2)`
+func RegisterPlayer(name string, discordID string, profileID uint64) error {
+	query := `INSERT INTO player_data (name, discord_id, profile_id)
+				VALUES ($1, $2, $3)`
 
-	_, err := globals.GetConnection().Exec(query, discordID, profileID)
+	_, err := globals.GetConnection().Exec(query, name, discordID, profileID)
 
 	if err != nil {
 		return err

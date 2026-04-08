@@ -37,6 +37,7 @@ func Player(w http.ResponseWriter, r *http.Request) {
 func Register(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
 	var status *responses.PlayerInfoResponse
+	name := r.URL.Query().Get("name")
 	discordID := r.URL.Query().Get("discord_id")
 	friendCode := r.URL.Query().Get("friend_code")
 
@@ -60,7 +61,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = database.RegisterPlayer(discordID, wwfc.FCToPid(uint64(fc)))
+	err = database.RegisterPlayer(name, discordID, wwfc.FCToPid(uint64(fc)))
 
 	if err != nil {
 		status = responses.FailureResponse("FC cannot be found. Please connect to the limitless server and try again")

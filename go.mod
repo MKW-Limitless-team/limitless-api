@@ -3,8 +3,8 @@ module github.com/nwoik/Limitless-API
 go 1.25.1
 
 require (
-	github.com/MKW-Limitless-team/limitless-types v1.0.15
-	github.com/lib/pq v1.11.1
+	github.com/MKW-Limitless-team/limitless-types v1.0.16
+	github.com/lib/pq v1.12.3
 	github.com/stretchr/testify v1.11.1
 )
 
