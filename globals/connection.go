@@ -12,12 +12,12 @@ import (
 var (
 	DB       *sql.DB
 	password = os.Getenv("DB_PASS")
+	user     = os.Getenv("DB_USER")
 )
 
 const (
 	host   = "localhost"
 	port   = 5432
-	user   = "postgres"
 	dbname = "wwfc"
 )
 

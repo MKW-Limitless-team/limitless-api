@@ -18,6 +18,6 @@ func main() {
 	http.HandleFunc("/register", handlers.Register)
 	http.HandleFunc("/player", handlers.Player)
 
-	log.Print("Running server on http://localhost:8080")
-	log.Fatal(http.ListenAndServe("localhost:8080", nil))
+	log.Print("Running server on http://localhost:5000")
+	log.Fatal(http.ListenAndServe("localhost:5000", nil))
 }
