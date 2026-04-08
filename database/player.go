@@ -30,10 +30,10 @@ func GetPlayerData(discordID string) (*ltrc.PlayerData, error) {
 }
 
 func GetPlayerInfo(discordID string) (*ltrc.PlayerData, *wwfc.User, error) {
-	query := `SELECT discord_id, player_data.profile_id, mmr, 
+	query := `SELECT player_data.discord_id, player_data.profile_id, mmr, 
 				users.profile_id, last_ingamesn, mariokartwii_friend_info, has_ban FROM player_data
 				INNER JOIN users on users.profile_id = player_data.profile_id
-				AND discord_id = '%s'`
+				AND player_data.discord_id = '%s'`
 
 	rows, err := globals.GetConnection().Query(fmt.Sprintf(query, discordID))
 	if err != nil {
