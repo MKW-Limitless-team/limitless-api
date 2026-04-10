@@ -34,6 +34,50 @@ func Player(w http.ResponseWriter, r *http.Request) {
 	log.Println(status)
 }
 
+func Edit(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
+	var status *responses.PlayerInfoResponse
+	name := r.URL.Query().Get("name")
+	discordID := r.URL.Query().Get("discord_id")
+	friendCode := r.URL.Query().Get("friend_code")
+	var err error
+
+	if name != "" {
+		err = database.EditName(discordID, name)
+	}
+
+	if friendCode != "" {
+		fc, err := strconv.Atoi(strings.ReplaceAll(friendCode, "-", ""))
+
+		if err != nil {
+			status = responses.FailureResponse("Friend-code needs to be a number")
+			resp, _ := json.Marshal(status)
+			w.Write(resp)
+			log.Println(status)
+			return
+		}
+
+		err = database.EditProfileID(discordID, uint64(fc))
+	}
+
+	if err != nil {
+		status = responses.FailureResponse("Failed to edit license. Use `/register` if you haven't already")
+		resp, _ := json.Marshal(status)
+		w.Write(resp)
+		log.Println(status)
+		return
+	}
+
+	player, user, err := database.GetPlayerInfo(discordID)
+	status = responses.SuccessResponse()
+	status.Message = "License has been edited"
+	status.PlayerData = player
+	status.User = user
+	resp, _ := json.Marshal(status)
+	w.Write(resp)
+	log.Println(status)
+}
+
 func Register(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
 	var status *responses.PlayerInfoResponse

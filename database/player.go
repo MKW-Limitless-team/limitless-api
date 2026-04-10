@@ -104,3 +104,25 @@ func RegisterPlayer(name string, discordID string, profileID uint64) error {
 
 	return nil
 }
+
+func EditProfileID(discordID string, profileID uint64) error {
+	query := `UPDATE player_data SET profile_id = %d WHERE discord_id = %s`
+	_, err := globals.GetConnection().Exec(fmt.Sprintf(query, profileID, discordID))
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func EditName(discordID string, name string) error {
+	query := `UPDATE player_data SET name = '%s' WHERE discord_id = '%s'`
+	_, err := globals.GetConnection().Exec(fmt.Sprintf(query, name, discordID))
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
