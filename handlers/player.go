@@ -57,7 +57,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = database.EditProfileID(discordID, uint64(fc))
+		err = database.EditProfileID(discordID, wwfc.FCToPid(uint64(fc)))
 	}
 
 	if err != nil {
@@ -68,11 +68,8 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	player, user, err := database.GetPlayerInfo(discordID)
 	status = responses.SuccessResponse()
 	status.Message = "License has been edited"
-	status.PlayerData = player
-	status.User = user
 	resp, _ := json.Marshal(status)
 	w.Write(resp)
 	log.Println(status)
