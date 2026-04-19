@@ -34,6 +34,38 @@ func Player(w http.ResponseWriter, r *http.Request) {
 	log.Println(status)
 }
 
+func User(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
+	var status *responses.PlayerInfoResponse
+	profileID := r.URL.Query().Get("profile_id")
+
+	pid, err := strconv.Atoi(profileID)
+
+	if err != nil {
+		status = responses.FailureResponse("Profile ID must be a number")
+		resp, _ := json.Marshal(status)
+		w.Write(resp)
+		log.Println(status)
+		return
+	}
+
+	user, err := database.GetUser(uint64(pid))
+
+	if err != nil {
+		status = responses.FailureResponse("Failed to get user")
+		resp, _ := json.Marshal(status)
+		w.Write(resp)
+		log.Println(status)
+		return
+	}
+
+	status = responses.SuccessResponse()
+	status.User = user
+	resp, _ := json.Marshal(status)
+	w.Write(resp)
+	log.Println(status)
+}
+
 func Edit(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
 	var status *responses.PlayerInfoResponse
