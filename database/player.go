@@ -87,6 +87,8 @@ func GetUser(profileID uint64) (*wwfc.User, error) {
 
 	if rows.Next() {
 		rows.Scan(&user.ProfileID, &user.LastInGameSn, &user.FriendInfo, &user.HasBan)
+	} else {
+		return nil, errors.New("No user found")
 	}
 
 	return user, nil

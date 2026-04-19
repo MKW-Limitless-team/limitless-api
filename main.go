@@ -18,6 +18,7 @@ func main() {
 	http.HandleFunc("/register", handlers.Register)
 	http.HandleFunc("/edit", handlers.Edit)
 	http.HandleFunc("/player", handlers.Player)
+	http.HandleFunc("/user", handlers.User)
 
 	log.Print("Running server on http://localhost:5000")
 	log.Fatal(http.ListenAndServe("localhost:5000", nil))
